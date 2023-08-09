@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion API</title>
+</head>
+
+<body>
+
+    <button onclick="runNotionToken()">Run Notion token</button>
+    <button onclick="runNotionDB()">Run Notion DB</button>
+
+    <script>
+        function runNotionToken() {
+
+            const CLIENT_ID = '';
+            const CLIENT_SECRET = '';
+            const AUTHORIZATION_CODE = '';
+            const REDIRECT_URL = 'https://localhost:3000/commands.html';
+            const GRANT_TYPE = 'authorization_code';
+
+            const TOKEN_URL = 'http://localhost:3000/api/notion/token';
+
+            const tokenRequestBody = {
+                grant_type: GRANT_TYPE,
+                code: AUTHORIZATION_CODE,
+                redirect_uri: REDIRECT_URL,
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+            };
+
+            fetch(TOKEN_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tokenRequestBody),
+            })
+                .then(response => response.json())
+                .then(tokenData => {
+                    console.log('Token Data:', tokenData);
+                })
+                .catch(error => {
+                    console.error('Token Request Error:', error);
+                });
+        }
+
+
+        async function runNotionDB() {
+
+            const TOKEN_URL = 'http://localhost:3000/api/notion/database';
+            const token = "secret_lgAlRSByKKbsZAjzmMkSB4eTUEP80dcVO8yhWELzbBW";
+
+            fetch(TOKEN_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token }),
+            })
+                .then(response => response.json())
+                .then(dbData => {
+                    console.log('Database Data:', dbData);
+                })
+                .catch(error => {
+                    console.error('Database Request Error:', error);
+                });
+
+
+        }
+    </script>
+</body>
+
+</html>
